@@ -50,8 +50,7 @@ pipeline {
 
                     steps {
                         sh '''
-                            npm install -g serve
-                            nohup serve -s build > serve.log 2>&1 &
+                            npx serve -s build &
                             sleep 10
                             npx playwright test --reporter=html
                         '''
@@ -59,16 +58,7 @@ pipeline {
 
                     post {
                         always {
-                            publishHTML([
-                                allowMissing: false,
-                                alwaysLinkToLastBuild: false,
-                                keepAll: false,
-                                reportDir: 'playwright-report',
-                                reportFiles: 'index.html',
-                                reportName: 'Playwright HTML Report',
-                                reportTitles: '',
-                                useWrapperFileDirectly: true
-                            ])
+                            publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'Playwright HTML Report', reportTitles: '', useWrapperFileDirectly: true])
                         }
                     }
                 }
